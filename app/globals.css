@@ -1,11 +1,153 @@
 @import "tailwindcss";
 
-:root {
-  color-scheme: light;
-  --background: #f5f3ee;
-  --foreground: #12202d;
+@theme {
+  --color-background: oklch(98% 0.008 275);
+  --color-foreground: oklch(20% 0.035 270);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(20% 0.035 270);
+  --color-primary: oklch(43% 0.2 278);
+  --color-primary-foreground: oklch(98% 0.008 275);
+  --color-muted: oklch(95% 0.015 275);
+  --color-muted-foreground: oklch(47% 0.035 270);
+  --color-border: oklch(89% 0.025 275);
+  --color-ring: oklch(55% 0.2 278);
+  --color-success: oklch(48% 0.14 157);
+  --color-success-soft: oklch(95% 0.035 157);
+  --color-danger: oklch(52% 0.2 27);
+  --color-danger-soft: oklch(96% 0.025 27);
+  --radius-card: 1rem;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans Thai", "Segoe UI", sans-serif;
 }
 
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--background); color: var(--foreground); font-family: Arial, sans-serif; }
-button, input, select, textarea { font: inherit; }
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-border);
+  }
+
+  html {
+    min-width: 320px;
+    background: var(--color-background);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background:
+      radial-gradient(circle at 10% 0%, color-mix(in oklab, var(--color-primary) 7%, transparent), transparent 28rem),
+      var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  summary,
+  select {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .panel {
+    @apply rounded-[var(--radius-card)] border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-6;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-primary;
+  }
+
+  .label {
+    @apply block text-sm font-semibold text-foreground;
+  }
+
+  .field {
+    @apply min-h-11 w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-base text-foreground outline-none transition placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/25 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .button {
+    @apply inline-flex min-h-11 items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .button-secondary {
+    @apply border border-border bg-card text-foreground shadow-none hover:bg-muted hover:brightness-100;
+  }
+
+  .button-danger {
+    @apply bg-danger text-white hover:brightness-110;
+  }
+
+  .alert {
+    @apply rounded-xl border px-4 py-3 text-sm font-medium leading-6;
+  }
+
+  .alert-success {
+    @apply border-success/20 bg-success-soft text-success;
+  }
+
+  .alert-error {
+    @apply border-danger/20 bg-danger-soft text-danger;
+  }
+
+  .feature-chip {
+    @apply flex min-h-11 items-center rounded-xl border border-white/15 bg-white/10 px-4 py-2;
+  }
+
+  .room-card {
+    @apply rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md;
+  }
+
+  .capacity-badge {
+    @apply rounded-full bg-muted px-2.5 py-1 text-xs font-bold text-primary;
+  }
+
+  .booking-row {
+    @apply grid gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm sm:grid-cols-[1fr_auto_auto] sm:items-center;
+  }
+
+  .status-badge {
+    @apply inline-flex min-h-7 w-fit items-center rounded-full px-3 py-1 text-xs font-bold;
+  }
+
+  .status-busy {
+    @apply bg-danger-soft text-danger;
+  }
+
+  .status-own {
+    @apply bg-success-soft text-success;
+  }
+
+  .empty-state {
+    @apply rounded-2xl border border-dashed border-border bg-card/60 px-5 py-8 text-center text-sm leading-6 text-muted-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
